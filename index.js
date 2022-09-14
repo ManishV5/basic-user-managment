@@ -3,6 +3,7 @@ const app = express()
 const port = '8080'
 
 const registerController = require('./routes/v1/register')
+const loginController = require('./routes/v1/login')
 const bodyParsar = require('./node_modules/body-parser')
 
 app.get('/', (req, res) => {
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 
 app.use(bodyParsar.json({extended: true}))
 app.use('/register', registerController)
+app.use('/login', loginController)
 
 app.listen(port, () => {
     console.log('Server started at port : ', port)

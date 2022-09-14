@@ -21,7 +21,13 @@ const addUser = (name, mobile, password) => {
     return id
 }
 
+const getUserByUsername = (username) => {
+    user = users.filter((item) => item.name === username)
+    return user
+}
+
 module.exports = {
     getAllUsers,
-    addUser
+    addUser,
+    getUserByUsername
 }
