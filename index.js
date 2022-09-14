@@ -50,6 +50,37 @@ app.post('/login', (req, res) => {
     }    
 })
 
+app.get('/info/own/:username', (req, res) => {
+    const username = req.params.username
+    const user = userServices.getUserByUsername(username)
+    res.status(200).json({
+        message: user
+    })
+})
+
+app.get('/info/other/:username', (req, res) => {
+    const username = req.params.username
+    const users = userServices.getUsersOtherThan(username)
+    res.status(200).json({
+        message: users
+    })
+})
+
+app.post('/change/userinfo', (req, res) => {
+    const oldUsername = req.body.oldUsername
+    const newUsername = req.body.newUsername
+    const email = req.body.email
+    const mobile = req.body.mobile
+
+    user = userServices.changeUserInfo(oldUsername, newUsername, email, mobile)
+    res.status(200).json({
+        message: `User ${oldUsername} updated to ${newUsername}`
+    })
+})
+
+
+app.get('change/password')
+
 app.listen(port, () => {
     console.log('Server started at port : ', port)
 })
