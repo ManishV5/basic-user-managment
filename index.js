@@ -72,14 +72,21 @@ app.post('/change/userinfo', (req, res) => {
     const email = req.body.email
     const mobile = req.body.mobile
 
-    user = userServices.changeUserInfo(oldUsername, newUsername, email, mobile)
+    userServices.changeUserInfo(oldUsername, newUsername, email, mobile)
     res.status(200).json({
         message: `User ${oldUsername} updated to ${newUsername}`
     })
 })
 
 
-app.get('change/password')
+app.post('/change/password', (req, res) =>{
+    const username = req.body.username
+    const newPassword = req.body.newPassword
+    userServices.changePassword(username, newPassword)
+    res.status(200).json({
+        message: `User ${username} changed password`
+    })
+})
 
 app.listen(port, () => {
     console.log('Server started at port : ', port)

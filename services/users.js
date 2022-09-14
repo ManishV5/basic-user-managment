@@ -55,10 +55,26 @@ const changeUserInfo = (oldUsername, newUsername, mobile, email) => {
     users.push(newUser)
 }
 
+const changePassword = (username, newPassword) => {
+    const oldUser = users.filter(item => item.name === username)
+    const idx = users.findIndex(i => i.name == username)
+    const newUser = {
+        id: oldUser[0].id,
+        name: oldUser[0].name,
+        mobile: oldUser[0].mobile,
+        email: oldUser[0].email,
+        password: newPassword
+    }
+    users.splice(idx, 1)
+    users.push(newUser)
+    console.log(users)
+}
+
 module.exports = {
     getAllUsers,
     addUser,
     getUserByUsername,
     getUsersOtherThan,
-    changeUserInfo
+    changeUserInfo,
+    changePassword
 }
