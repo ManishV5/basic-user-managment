@@ -2,9 +2,9 @@ const express = require('./node_modules/express')
 const app = express()
 const port = '8080'
 
-const registerController = require('./routes/v1/register')
-const loginController = require('./routes/v1/login')
+const userServices = require('./services/users')
 const bodyParsar = require('./node_modules/body-parser')
+
 
 app.get('/', (req, res) => {
     res.status(200).json({
@@ -15,8 +15,40 @@ app.get('/', (req, res) => {
 
 
 app.use(bodyParsar.json({extended: true}))
-app.use('/register', registerController)
-app.use('/login', loginController)
+
+app.post('/register', (req, res) => {
+    const username = req.body.name
+    const email = req.body.email
+    const mobile = req.body.mobile
+    const password = req.body.password
+
+    id = userServices.addUser(username, mobile, password, email)
+    res.status(200).json({
+        message: `User : ${username} inserted with id: ${id}`
+    })
+})
+
+app.post('/login', (req, res) => {
+    const username = req.body.name
+    const password = req.body.password
+    user = userServices.getUserByUsername(username)
+    
+    try{
+        if(user[0].name === username && user[0].password === password){
+            res.status(200).json({
+                message: 'Login successful'
+            })
+        } else {
+            res.status(200).json({
+                message: 'Invalid username or password'
+            })
+        }
+    } catch (error){
+        res.status(200).json({
+            message: 'Invalid login attempt'
+        })
+    }    
+})
 
 app.listen(port, () => {
     console.log('Server started at port : ', port)
