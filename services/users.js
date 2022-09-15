@@ -37,7 +37,6 @@ const addUser = async (name, mobile, password, email) => {
     } catch (err) {
         console.log(err)
     }
-
 }
 
 const getUserByUsername = (username) => {
