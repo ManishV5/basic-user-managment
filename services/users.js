@@ -1,20 +1,6 @@
 const bcrypt = require('bcrypt')
 
-users = [{
-    id: 1,
-    name: "Manish",
-    mobile: '1234567890',
-    password: 'asdf',
-    email: 'manish@mail'
-},
-{
-    id: 2,
-    name: "Random",
-    mobile: '1234567890',
-    password: 'asdf',
-    email: 'random@random'
-}
-]
+users = []
 
 const getAllUsers = () => {
     return users
