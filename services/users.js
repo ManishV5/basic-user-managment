@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt')
+
 users = [{
     id: 1,
     name: "Manish",
@@ -18,17 +20,24 @@ const getAllUsers = () => {
     return users
 }
 
-const addUser = (name, mobile, password, email) => {
-    id = users.length + 1
-    user = {
-        id: id,
-        name: name,
-        mobile: mobile,
-        password: password,
-        email: email
+const addUser = async (name, mobile, password, email) => {
+    newId = users.length + 1
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10)
+        user = {
+            id: newId,
+            name: name,
+            mobile: mobile,
+            password: hashedPassword,
+            email: email
+        }
+        users.push(user)
+        return newId
+    } catch (err) {
+        console.log(err)
     }
-    users.push(user)
-    return id
+
 }
 
 const getUserByUsername = (username) => {
@@ -55,19 +64,24 @@ const changeUserInfo = (oldUsername, newUsername, mobile, email) => {
     users.push(newUser)
 }
 
-const changePassword = (username, newPassword) => {
+const changePassword = async (username, newPassword) => {
     const oldUser = users.filter(item => item.name === username)
     const idx = users.findIndex(i => i.name == username)
-    const newUser = {
-        id: oldUser[0].id,
-        name: oldUser[0].name,
-        mobile: oldUser[0].mobile,
-        email: oldUser[0].email,
-        password: newPassword
+    
+    try {
+        const hashedPassword = await bcrypt.hash(newPassword, 10)
+        const newUser = {
+            id: oldUser[0].id,
+            name: oldUser[0].name,
+            mobile: oldUser[0].mobile,
+            email: oldUser[0].email,
+            password: hashedPassword
+        }
+        users.splice(idx, 1)
+        users.push(newUser)
+    } catch (err) {
+        console.log(err)
     }
-    users.splice(idx, 1)
-    users.push(newUser)
-    console.log(users)
 }
 
 module.exports = {

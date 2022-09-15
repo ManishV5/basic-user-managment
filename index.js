@@ -4,6 +4,7 @@ const port = '8080'
 
 const userServices = require('./services/users')
 const bodyParsar = require('./node_modules/body-parser')
+const bcrypt = require('bcrypt')
 
 
 app.get('/', (req, res) => {
@@ -28,13 +29,13 @@ app.post('/register', (req, res) => {
     })
 })
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     const username = req.body.name
     const password = req.body.password
     user = userServices.getUserByUsername(username)
     
     try{
-        if(user[0].name === username && user[0].password === password){
+        if(user[0].name === username && (await bcrypt.compare(password, user[0].password))){
             res.status(200).json({
                 message: 'Login successful'
             })
