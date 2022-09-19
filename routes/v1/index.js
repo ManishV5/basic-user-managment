@@ -12,7 +12,7 @@ routes.post('/register', (req, res) => {
     const mobile = req.body.mobile
     const password = req.body.password
 
-    id = userServices.addUser(username, mobile, password, email)
+    userServices.addUser(username, mobile, password, email)
     const token = {name: username}
     const accessToken = jwt.sign(token, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: '1m'
